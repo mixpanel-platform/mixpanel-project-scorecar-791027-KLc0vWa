@@ -153,6 +153,7 @@ function main() {
       var barChart = $('#graph2').MPChart({chartType: 'bar'}); 
       barChart.MPChart('setData', new_grades); 
       percent_changes = calculatePercentChanges(results);
+      console.log(percent_changes);
       document.getElementById('percent_changes').innerHTML = percent_changes;
     });
     
