@@ -143,6 +143,8 @@ function main() {
       var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
       barChart.MPChart('setData', previous_grades); 
       var new_grades = getNewResults(results);
+      var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
+      barChart.MPChart('setData', new_grades); 
 
       //document.getElementById('results').innerHTML += results;
     });
