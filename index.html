@@ -10,14 +10,6 @@
     <div id="results"></div>
     
     <script id="jql">
-    /* JQL query goes here */
-
-    function main() {
-      return People();
-    }
-    </script>
-    
-    <script>
 function main() {
   return People()
   
@@ -63,6 +55,17 @@ function main() {
     }
     return project_grade_info;
   });
+    </script>
+    
+    <script>
+    var script = $('#jql').html();
+    script = $.trim(script);
+    console.log(script);
+    var params = {};
+    MP.api.jql(script,params).done(function(results) {
+      console.log(results);
+      //document.getElementById('results').innerHTML += results;
+    });
     </script>
 
   </body>
