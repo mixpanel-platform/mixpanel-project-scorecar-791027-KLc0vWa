@@ -154,7 +154,7 @@ function main() {
       barChart.MPChart('setData', new_grades); 
       percent_changes = calculatePercentChanges(results);
       console.log(percent_changes);
-      document.getElementById('percent_changes').innerHTML = percent_changes;
+      document.getElementById('percent_changes').innerHTML = JSON.stringify(percent_changes);
     });
     
     
