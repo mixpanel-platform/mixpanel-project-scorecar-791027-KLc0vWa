@@ -139,14 +139,12 @@ function main() {
     var params = {};
     MP.api.jql(script,params).done(function(results) {
       var previous_grades = getPreviousResults(results);
-      console.log(previous_grades);
       var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
       barChart.MPChart('setData', previous_grades); 
       var new_grades = getNewResults(results);
       var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
       barChart.MPChart('setData', new_grades); 
 
-      //document.getElementById('results').innerHTML += results;
     });
     
     
@@ -161,10 +159,10 @@ function main() {
     
     function getNewResults(results){
       return {
-        "A":results.A_total,
-        "B":results.B_total,
-        "C":results.C_total,
-        "D":results.D_total
+        "A":results[0].A_total,
+        "B":results[0].B_total,
+        "C":results[0].C_total,
+        "D":results[0].D_total
       }
     }
     </script>
