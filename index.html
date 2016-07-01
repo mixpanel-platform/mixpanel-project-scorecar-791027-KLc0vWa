@@ -80,6 +80,8 @@ function main() {
         'C_previous':0,
         'B_previous':0,
         'A_previous':0,
+        'previous_total':0,
+        'current_total':0
       };
       for(var i = 0; i < projects.length; i++){
         // Only sum if the previous event grade is set 
@@ -106,6 +108,8 @@ function main() {
           }
         }
       }
+      return_obj.previous_total = return_obj.D_previous + return_obj.C_previous + return_obj.B_previous + return_obj.A_previous;
+      return_obj.current_total = return_obj.D_total + return_obj.C_total + return_obj.B_total + return_obj.A_total;
       return return_obj;
     }
     </script>
