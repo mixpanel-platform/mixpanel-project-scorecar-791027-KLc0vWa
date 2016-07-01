@@ -139,6 +139,7 @@ function main() {
     var params = {};
     MP.api.jql(script,params).done(function(results) {
       var previous_grades = getPreviousResults(results);
+      console.log(previous_grades);
       var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
       barChart.MPChart('setData', previous_grades); 
       var new_grades = getNewResults(results);
@@ -152,7 +153,7 @@ function main() {
         "A":results.A_previous,
         "B":results.B_previous,
         "C":results.C_previous,
-        "D":results.D_previous,
+        "D":results.D_previous
       }
     }
     
@@ -161,7 +162,7 @@ function main() {
         "A":results.A_total,
         "B":results.B_total,
         "C":results.C_total,
-        "D":results.D_total,
+        "D":results.D_total
       }
     }
     </script>
