@@ -140,7 +140,7 @@ function main() {
     MP.api.jql(script,params).done(function(results) {
       var previous_grades = getPreviousResults(results);
       var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
-      barChart.MPChart('setData', previousGrades); 
+      barChart.MPChart('setData', previous_grades); 
       var new_grades = getNewResults(results);
 
       //document.getElementById('results').innerHTML += results;
