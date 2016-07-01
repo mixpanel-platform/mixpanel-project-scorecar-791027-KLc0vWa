@@ -13,6 +13,9 @@
     <br clear="all" />
     New Grade Distribution<br clear="all" />
     <div id="graph2"></div>
+    <br clear="all" />
+    <br clear="all" />
+    <div id="percent_chages"></div>
     
     <script id="jql">
 function main() {
@@ -149,7 +152,8 @@ function main() {
       var new_grades = getNewResults(results);
       var barChart = $('#graph2').MPChart({chartType: 'bar'}); 
       barChart.MPChart('setData', new_grades); 
-
+      percent_changes = calculatePercentChanges(results);
+      console.log(percent_changes);
     });
     
     
@@ -169,6 +173,16 @@ function main() {
         "C":results[0].C_total,
         "D":results[0].D_total
       }
+    }
+    
+    function calculatePercentChanges(results){
+      results = results[0];
+      var returnObj = {};
+      returnObj.A_percent_change = ((results.A_total - results.A_previous) / results.A_previous)*100;
+      returnObj.B_percent_change = ((results.B_total - results.B_previous) / results.B_previous)*100;
+      returnObj.C_percent_change = ((results.C_total - results.C_previous) / results.C_previous)*100;
+      returnObj.D_percent_change = ((results.D_total - results.D_previous) / results.D_previous)*100;
+      return returnObj;
     }
     </script>
 
