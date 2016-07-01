@@ -7,7 +7,12 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <div id="results"></div>
+    Previous Grade Distribution<br clear="all" />
+    <div id="graph1"></div>
+    <br clear="all" />
+    <br clear="all" />
+    New Grade Distribution<br clear="all" />
+    <div id="graph2"></div>
     
     <script id="jql">
 function main() {
@@ -139,10 +144,10 @@ function main() {
     var params = {};
     MP.api.jql(script,params).done(function(results) {
       var previous_grades = getPreviousResults(results);
-      var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
+      var barChart = $('#graph1').MPChart({chartType: 'bar'});;   
       barChart.MPChart('setData', previous_grades); 
       var new_grades = getNewResults(results);
-      var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
+      var barChart = $('#graph2').MPChart({chartType: 'bar'}); 
       barChart.MPChart('setData', new_grades); 
 
     });
