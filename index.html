@@ -138,10 +138,32 @@ function main() {
     console.log(script);
     var params = {};
     MP.api.jql(script,params).done(function(results) {
-      console.log(results);
+      var previous_grades = getPreviousResult(results);
+      var barChart = $('<div></div>').appendTo('body').MPChart({chartType: 'bar'});   
+      barChart.MPChart('setData', previousGrades); 
+      var new_grades = getNewResults(results);
+
       //document.getElementById('results').innerHTML += results;
     });
     
+    
+    function getPreviousResults(results){
+      return {
+        "A":results.A_previous,
+        "B":results.B_previous,
+        "C":results.C_previous,
+        "D":results.D_previous,
+      }
+    }
+    
+    function getNewResults(results){
+      return {
+        "A":results.A_total,
+        "B":results.B_total,
+        "C":results.C_total,
+        "D":results.D_total,
+      }
+    }
     </script>
 
   </body>
