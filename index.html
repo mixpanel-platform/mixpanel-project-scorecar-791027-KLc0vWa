@@ -18,14 +18,51 @@
     </script>
     
     <script>
-    var script = $('#jql').html();
-    script = $.trim(script);
-    console.log(script);
-    var params = {};
-    MP.api.jql(script,params).done(function(results) {
-      console.log(results);
-      //document.getElementById('results').innerHTML += results;
-    });
+function main() {
+  return People()
+  
+  /* Map function for re-calibrating grades */
+  .map(function(proj){
+    // Obtain current grades
+    var project_grade_info = {
+      'previous_event_grade':proj.properties['Project Grade (events)'],
+      'previous_overall_project_grade':proj.properties['Project Grade (overall)'],
+      'previous_people_grade':proj.properties['Project Grade (people)']
+    };
+
+    // Calculate new event score
+    var event_sum = 0;
+    if(proj.properties['Event Count (unique)'] > 7 && proj.properties['Event Count (unique)']< 200){
+      event_sum += 3;
+    }
+    if(proj.properties['Avg Event Similarity'] <30){
+      event_sum += 0.5;
+    }
+    if(proj.properties['Prop Count (unique)'] > 6 && proj.properties['Prop Count (unique)']< 200){
+      event_sum += 3;
+    }
+    if(proj.properties['Prop/Event Ratio'] > 4){
+      event_sum += 1;
+    }
+    if(proj.properties['Super Prop Count (unique)'] > 0){
+      event_sum += 0.5;
+    }
+    
+    // Calculate new event grade
+    if(event_sum > 5){
+      project_grade_info.event_grade = "A";
+    }
+    else if(event_sum <=5 && event_sum >=4){
+      project_grade_info.event_grade = "B";
+    }
+    else if(event_sum < 4 && event_sum >=2){
+      project_grade_info.event_grade = "C";
+    }
+    else if(event_sum < 2){
+      project_grade_info.event_grade = "D";
+    }
+    return project_grade_info;
+  });
     </script>
 
   </body>
