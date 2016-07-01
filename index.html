@@ -54,7 +54,82 @@ function main() {
       project_grade_info.event_grade = "D";
     }
     return project_grade_info;
-  })};
+  })
+  //.filter(item => !_.contains(["A", "B", "C", "D"], item.previous_event_grade))
+  /*Sum all new and old grades up*/
+  .reduce(function(previous, projects){
+    
+    // Initialize return obj
+    var return_obj = {
+      'D_total':0,
+      'C_total':0,
+      'B_total':0,
+      'A_total':0,
+      'D_previous':0,
+      'C_previous':0,
+      'B_previous':0,
+      'A_previous':0,
+      'others': 0,
+      'others_previous': 0,
+      'total_count':0
+    };
+    
+    // Sum from all projects we're currently on
+    for(var i = 0; i < projects.length; i++){
+      // Only sum if the previous event grade is set 
+      if(projects[i].previous_event_grade != "(no grade)"){
+        return_obj.total_count++;
+        
+        // Sum up old grades
+        if(projects[i].previous_event_grade == "A"){
+          return_obj.A_previous++;
+        }else if(projects[i].previous_event_grade == "B"){
+          return_obj.B_previous++;
+        }else if(projects[i].previous_event_grade == "C"){
+          return_obj.C_previous++;
+        }else if(projects[i].previous_event_grade == "D"){
+          return_obj.D_previous++;
+        }else {
+          return_obj.others_previous++;
+          continue;
+        }
+         // Sum up new grades
+        if(projects[i].event_grade == "A"){
+          return_obj.A_total++;
+        }else if(projects[i].event_grade == "B"){
+          return_obj.B_total++;
+        }else if(projects[i].event_grade == "C"){
+          return_obj.C_total++;
+        }else if(projects[i].event_grade == "D"){
+          return_obj.D_total++;
+        }else{
+          return_obj.others++;
+        }
+      }
+    }
+    
+    // Combine counts with previous 
+    for(var c = 0; c < previous.length; c++){
+      // Combine current counts
+      return_obj.A_total += previous[c].A_total;
+      return_obj.B_total += previous[c].B_total;
+      return_obj.C_total += previous[c].C_total;
+      return_obj.D_total += previous[c].D_total;
+      return_obj.others += previous[c].others;
+      
+      // Combine old counts
+      return_obj.A_previous += previous[c].A_previous;
+      return_obj.B_previous += previous[c].B_previous;
+      return_obj.C_previous += previous[c].C_previous;
+      return_obj.D_previous += previous[c].D_previous;
+      return_obj.others_previous += previous[c].others_previous;
+      
+      return_obj.total_count += previous[c].total_count;
+    }
+    return return_obj;
+  });
+}
+/* END JQL */
     </script>
     
     <script>
@@ -64,54 +139,9 @@ function main() {
     var params = {};
     MP.api.jql(script,params).done(function(results) {
       console.log(results);
-      results = processResults(results);
-      console.log(results);
       //document.getElementById('results').innerHTML += results;
     });
     
-    
-    function processResults(projects){
-      var return_obj = {
-        'D_total':0,
-        'C_total':0,
-        'B_total':0,
-        'A_total':0,
-        'D_previous':0,
-        'C_previous':0,
-        'B_previous':0,
-        'A_previous':0,
-        'previous_total':0,
-        'current_total':0
-      };
-      for(var i = 0; i < projects.length; i++){
-        // Only sum if the previous event grade is set 
-        if(projects[i].previous_event_grade != "(no grade)"){
-          // Sum up new grades
-          if(projects[i].event_grade == "A"){
-            return_obj.A_total++;
-          }else if(projects[i].event_grade == "B"){
-            return_obj.B_total++;
-          }else if(projects[i].event_grade == "C"){
-            return_obj.C_total++;
-          }else if(projects[i].event_grade == "D"){
-            return_obj.D_total++;
-          }
-          // Sum up old grades
-          if(projects[i].previous_event_grade == "A"){
-            return_obj.A_previous++;
-          }else if(projects[i].previous_event_grade == "B"){
-            return_obj.B_previous++;
-          }else if(projects[i].previous_event_grade == "C"){
-            return_obj.C_previous++;
-          }else if(projects[i].previous_event_grade == "D"){
-            return_obj.D_previous++;
-          }
-        }
-      }
-      return_obj.previous_total = return_obj.D_previous + return_obj.C_previous + return_obj.B_previous + return_obj.A_previous;
-      return_obj.current_total = return_obj.D_total + return_obj.C_total + return_obj.B_total + return_obj.A_total;
-      return return_obj;
-    }
     </script>
 
   </body>
