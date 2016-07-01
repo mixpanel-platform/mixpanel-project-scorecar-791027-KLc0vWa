@@ -64,8 +64,50 @@ function main() {
     var params = {};
     MP.api.jql(script,params).done(function(results) {
       console.log(results);
+      results = processResults(results);
+      console.log(results);
       //document.getElementById('results').innerHTML += results;
     });
+    
+    
+    function processResults(projects){
+      var return_obj = {
+        'D_total':0,
+        'C_total':0,
+        'B_total':0,
+        'A_total':0,
+        'D_previous':0,
+        'C_previous':0,
+        'B_previous':0,
+        'A_previous':0,
+      };
+      for(var i = 0; i < projects.length; i++){
+        // Only sum if the previous event grade is set 
+        if(projects[i].previous_event_grade != "(no grade)"){
+          // Sum up new grades
+          if(projects[i].event_grade == "A"){
+            return_obj.A_total++;
+          }else if(projects[i].event_grade == "B"){
+            return_obj.B_total++;
+          }else if(projects[i].event_grade == "C"){
+            return_obj.C_total++;
+          }else if(projects[i].event_grade == "D"){
+            return_obj.D_total++;
+          }
+          // Sum up old grades
+          if(projects[i].previous_event_grade == "A"){
+            return_obj.A_previous++;
+          }else if(projects[i].previous_event_grade == "B"){
+            return_obj.B_previous++;
+          }else if(projects[i].previous_event_grade == "C"){
+            return_obj.C_previous++;
+          }else if(projects[i].previous_event_grade == "D"){
+            return_obj.D_previous++;
+          }
+        }
+      }
+      return return_obj;
+    }
     </script>
 
   </body>
